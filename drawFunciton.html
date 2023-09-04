@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Draw Function</title>
+	</head>
+	<body style="text-align: center" onload="init()">
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid black"
+			><br
+		/></canvas>
+		<div>
+			Funkcja kwadratowa <br />
+			Podaj wartości a i c dla ax<sup>2</sup> + 2<br />
+		</div>
+		a: <input type="number" id="a" /><br />
+		c: <input type="number" id="c" /><br />
+		<button onclick="draw()">Rysuj</button>
+
+		<script>
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+			function init() {
+				// ustawienie przesunięcia
+				ctx.setTransform(1, 0, 0, -1, 400, 300);
+
+				//oś Y
+				ctx.moveTo(0, -300); //oś X
+				ctx.lineTo(0, 300); //oś Y
+				ctx.stroke();
+				//oś X
+				ctx.moveTo(-400, 0); //oś X
+				ctx.lineTo(400, 0); //oś Y
+				ctx.stroke();
+				//skala
+				for (let i = -400; i <= 400; i = i + 100) {
+					ctx.moveTo(i, -10);
+					ctx.lineTo(i, 10);
+					ctx.stroke();
+					// ctx.fillText(i/100, i+10, 290)
+				}
+				for (let i = -300; i <= 300; i = i + 100) {
+					ctx.moveTo(-10, i);
+					ctx.lineTo(10, i);
+					ctx.stroke();
+					// ctx.fillText(i/100, 410, i+10)
+				}
+				ctx.fillRect(100, 100, 1, 1); //ustalamy współrzędne i potem ustawiamy wielkość elementu
+
+				// //funkcja liniowa y = x
+				// for(let x=-400; x <=400; x++){
+				//     let y = x;
+				//     ctx.fillRect(x, y, 1, 1)
+				// }
+				// //funkcja kwadratowa y = x*x
+				// for(let x=-400; x <=400; x++){
+				//     // let y = 0.05*(Math.pow(x, 2));
+				//     let y = 0.01*(Math.pow(x, 2)) -100;
+				//     // ctx.fillRect(x, y, 1, 1)
+
+				//     //linia ciągła a nie przyrywana
+				//     let previousY = 0.01*(Math.pow(x-1, 2)) -100;
+				//     ctx.moveTo(x-1, previousY)
+				//     ctx.lineTo(x, y)
+				//     ctx.stroke()
+			}
+
+			function draw() {
+
+				//funkcja y = x^2 + c
+				let a = parseFloat(document.getElementById('a').value);
+				let c = parseFloat(document.getElementById('c').value);
+
+				for (let x = -400; x <= 400; x++) {
+					// let y = 0.05*(Math.pow(x, 2));
+					let y = a * (Math.pow(x, 2)) + (c *100);
+                    
+					//linia ciągła a nie przyrywana
+					let previousY = a * (Math.pow(x - 1, 2)) + (c *100);
+					ctx.moveTo(x - 1, previousY);
+					ctx.lineTo(x, y);
+					ctx.stroke();
+				}
+			}
+		</script>
+	</body>
+</html>
