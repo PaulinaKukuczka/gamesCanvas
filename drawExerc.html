@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Driving Exercises</title>
+	</head>
+	<body>
+		<canvas
+			width="400"
+			height="400"
+			id="canvas"
+			style="
+				background: rgb(207, 207, 207);
+				border: 1px solid grey;
+				display: flex;
+			"
+		></canvas>
+		<div>
+			<p>PODAJ DŁUGOSC BOKÓW</p>
+			<input type="number" id="number" />
+			<button id="btn1" onclick="draw()">Rysuj</button>
+			<button id="btnFirst" onclick="whiteDraw()">Wyczyść</button>
+		</div>
+
+		<canvas
+			width="400"
+			height="200"
+			id="canvasText"
+			style="
+				background: #cfcfcf;
+				border: 1px solid grey;
+				margin-top: 10px;
+			"
+		></canvas>
+		<div>
+			<p>WPISZ TEKST KTÓRY CHCESZ ZOBACZYĆ</p>
+
+                <input type="text" id="textCanvas" />
+                <button id="btn2" onclick="msg()">Wyślij</button>
+                <button id="btn Second" onclick="whiteWrite()">Wyczyść</button>
+		</div>
+
+		<script>
+			const canvas = document.querySelector('#canvas');
+			const ctx = canvas.getContext('2d');
+
+			// RYSOWANIE LINI
+			// ctx.beginPath()
+			// ctx.moveTo(300, 0) //stawiamy piórko w punkcie x: 20 y: 20
+			// ctx.lineTo(300, 600) //zaczynamy rysować niewidzialną linię do x : 300, y: 600
+
+			// ctx.moveTo(0, 300);
+			// ctx.lineTo(600, 300)
+
+			// ctx.moveTo(0, 0)
+			// ctx.lineTo(600, 600)
+
+			// ctx.moveTo(600, 0)
+			// ctx.lineTo(0, 600)
+			// ctx.stroke() //po zakończeniu rysowania obrysowujemy linię
+
+			// RYSOWNANIE ZAMAZANEGO POLA, randomowe wartości
+			// const rand = function (min, max) {
+			// 	return Math.floor(Math.random() * (max - min + 1) + min);
+
+			// };
+
+			// ctx.beginPath();
+			// ctx.moveTo(0, canvas.height / 2); //zaczniemy rysowanie od x: 0, y: polowaWysokosci
+			// const step = 30; //krok co 10
+			// const howMany = canvas.width / step; //ile kroków
+
+			// for (let i = 1; i <= howMany; i++) {
+			// 	const y = canvas.height / 2 + rand(40, 20);
+			// 	ctx.lineTo(i * step, y);
+			// }
+			// ctx.lineTo(canvas.width, 600);
+			// ctx.lineTo(0, canvas.height)
+			// ctx.closePath();
+			// ctx.fill();
+
+			// RYSOWANIE PROSTOKĄTÓW
+			function draw() {
+				let num = document.getElementById('number').value;
+				num = parseInt(num);
+				console.log(num);
+
+				ctx.beginPath();
+				let drawStartX = (canvas.width - num) / 2; //wyśrodkowanie elementu
+				let drawStartY = (canvas.height - num) / 2; //wyśrodkowanie elementu
+				ctx.strokeRect(drawStartX, drawStartY, num, num);
+				// ctx.fillRect(drawStartX, drawStartY, num, num) zamalowany kwadrat
+			}
+
+			function whiteDraw() {
+				ctx.clearRect(0, 0, 400, 400);
+				ctx.beginPath();
+			}
+            // PISANIE TEKSTU
+            
+			const textCanvas = document.querySelector('#canvasText');
+			const ctf = textCanvas.getContext('2d');
+                
+                ctf.textAlign = 'center';
+				ctf.font = 'normal 20px Arial';
+				ctf.fillText(text, (textCanvas.width/2), (textCanvas.height/2)); //wyśrodkowanie tekstu
+
+
+			function msg() {
+				let text = document.getElementById('textCanvas').value;
+                console.log(text)
+
+                ctf.textAlign = 'center';
+				ctf.font = 'normal 20px Arial';
+				ctf.fillText(text, (textCanvas.width/2), (textCanvas.height/2)); //wyśrodkowanie tekstu
+			}
+
+            function whiteWrite() {
+				ctf.clearRect(0, 0, 400, 200);
+			}
+
+		</script>
+	</body>
+</html>
