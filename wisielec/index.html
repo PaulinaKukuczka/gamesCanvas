@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Wisielec</title>
+	</head>
+	<body onload="start()">
+		<p>Podaj literę</p>
+		<input type="text" id="guess" />
+		<button onclick="check()">Sprawdź</button>
+
+		<span id="word"></span>
+
+		<script>
+			var word;
+            let mask = Array();
+
+			function start() {
+				word = prompt('Podaj słowo: ');
+                mask.fill(false, 0, word.length)
+                showWord()
+			}
+
+            function check() {
+                let guess = document.getElementById('guess').value;
+                
+                for (let i=0; i < word.length; i++) {
+                    if(word[i] == guess) {
+                        mask[i] = true;
+                    }
+                }
+                showWord()
+            }
+
+            function showWord() {
+                let maskedWord = "";
+                for(let i=0; i < word.length; i++) {
+                    if(mask[i])
+                    maskedWord += word[i]
+                    else
+                    maskedWord += "_ ";
+                }
+                document.getElementById('word').innerHTML = maskedWord;
+            }
+
+		</script>
+	</body>
+</html>
