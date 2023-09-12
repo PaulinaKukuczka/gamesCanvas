@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uciekający guzik</title>
+</head>
+<body>
+    
+<button onmouseover="run()" onclick="win()" style="position:fixed" id="btn">Złap mnie</button>
+
+<script>
+    function run() {
+        let btn = document.getElementById('btn')
+        console.log(btn)
+        console.log('Najechałeś na guzik')
+
+        //losowanie nowych współrzędnych
+        let r = Math.random(); //<0;1> liczby rzeczywiste, czyli po przecinku
+        r *= window.innerHeight; // wysokosć okna przeglądarki
+        r = Math.round(r) //zaokrąglenie liczby
+        r -= btn.clientHeight; //wysokosć guzika
+        //dodanie pixeli!
+        let top = r.toString() + 'px'
+        btn.style.top = top;
+
+        r = Math.random(); //<0;1> liczby rzeczywiste, czyli po przecinku
+        r *= window.innerWidth; // wysokosć okna przeglądarki
+        r = Math.round(r) //zaokrąglenie liczby
+        r -= btn.clientWidth; //wysokosć guzika
+        //dodanie pixeli!
+        let left = r.toString() + 'px';
+        btn.style.left = left;
+
+    }
+
+    function win(){
+        window.alert('Gratki!')
+        //tab + spacja
+    }
+
+    //ustawienie odliczania zmiany w guziku
+    // setInterval("run()", 1000)
+</script>
+
+</body>
+</html>  
