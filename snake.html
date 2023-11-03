@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Snake</title>
+	</head>
+	<body onkeydown="changeDirection(event)">
+		<canvas
+			id="c"
+			width="600"
+			height="600"
+			style="border: 1px solid grey"
+		></canvas>
+		<p id="point">Moje punkty: 0</p>
+
+		<script>
+			const canvas = document.getElementById('c');
+			//context
+			const ctx = canvas.getContext('2d');
+			//rysowanie kwadratu fillRect(x, y, width, height)
+			// ctx.fillRect(25, 25, 20, 20); NADAMY TO W funkcji gameLoop()
+
+			//zapisujemy JSON, czyli wartości nadajemy parametry
+			const snake = Array(
+				{ x: 300, y: 300 },
+				{ x: 290, y: 300 },
+				{ x: 280, y: 300 },
+				{ x: 270, y: 300 }
+			);
+			setInterval(gameLoop, 100);
+			//przemieszczanie!!!
+			let direction = 'down';
+			let point = 0;
+
+			//jedzenie
+			const food = { x: 200, y: 300 };
+			spawnFood();
+			function changeDirection(event) {
+				// console.log(event)
+				switch (event.keyCode) {
+					case 40:
+						direction = 'down';
+						break;
+					case 38:
+						direction = 'up';
+						break;
+					case 39:
+						direction = 'right';
+						break;
+					case 37:
+						direction = 'left';
+						break;
+				}
+			}
+
+			//jedzenie
+			function spawnFood() {
+				let x = Math.random();
+				x *= 60;
+				x = Math.round(x);
+				x *= 10;
+
+				let y = Math.random();
+				y *= 60;
+				y = Math.round(y);
+				y *= 10;
+
+				food.x = x;
+				food.y = y;
+			}
+
+			// przemieszczanie i rysowanie naszego węża
+			function gameLoop() {
+				ctx.fillStyle = '#FFFFFF';
+				ctx.fillRect(0, 0, 600, 600);
+
+				//zjadanie: jeśli wymiary sa takie same, to zjadamy kwadracik
+				if (snake[0].x == food.x && snake[0].y == food.y) {
+					//zjadamy jedzenie
+					point++;
+					document.getElementById('point').innerHTML = `Moje punkty: ${point}`;
+					//generujemy jedzenie ponownie
+					spawnFood();
+				} else {
+					snake.pop();
+				}
+
+				//przemieszczenie się węża
+				// snake.y += 10;
+				//lokalna zmienna parameterX/Y - pozycja starej glowy
+				let parameterX = snake[0].x;
+				let parameterY = snake[0].y;
+				switch (direction) {
+					case 'down':
+						// snake.y += 10;
+						parameterY += 10;
+						break;
+					case 'up':
+						// snake.y -= 10;
+						parameterY -= 10;
+						break;
+					case 'right':
+						// snake.x += 10;
+						parameterX += 10;
+						break;
+					case 'left':
+						// snake.x -= 10;
+						parameterX -= 10;
+						break;
+				}
+				// console.log(snake)
+
+				//tworzymy nową głowę ze zodyfikowanymi współrzędnymi
+				let newHead = { x: parameterX, y: parameterY };
+				console.log(newHead);
+				snake.unshift(newHead);
+
+				//rysuj węża
+				ctx.fillStyle = '#000000';
+				for (let i = 0; i < snake.length; i++) {
+					ctx.fillRect(snake[i].x, snake[i].y, 10, 10);
+				}
+
+				// rysuj jedzenie
+				ctx.fillStyle = '#FF0000';
+				ctx.fillRect(food.x, food.y, 10, 10);
+
+				//sprawdzanie czy nie uderzyliśmy w koniec planszy
+				if (
+					snake[0].y < 0 ||
+					snake[0].y >= 600 ||
+					snake[0].x < 0 ||
+					snake[0].x >= 600
+				) {
+					alert('Przegrałeś!');
+					//snake = { x: 300, y: 300 };
+					//powrót węża do tego samego miejsca
+					snake = Array(
+						{ x: 300, y: 300 },
+						{ x: 290, y: 300 },
+						{ x: 280, y: 300 },
+						{ x: 270, y: 300 }
+					);
+				}
+
+                if(snake.includes(snake[0], 1)){
+                    alert('Przegrałes - wpadłeś sam w siebie');
+                    snake = Array(
+						{ x: 300, y: 300 },
+						{ x: 290, y: 300 },
+						{ x: 280, y: 300 },
+						{ x: 270, y: 300 }
+					);
+                }
+			}
+		</script>
+	</body>
+</html>
